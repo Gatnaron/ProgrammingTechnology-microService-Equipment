@@ -1,7 +1,10 @@
 package com.example.service;
 
 import com.example.model.Equipment;
+import com.example.model.EquipmentRequest;
+import com.example.model.EquipmentType;
 import com.example.repository.EquipmentRepository;
+import com.example.repository.EquipmentTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +16,21 @@ public class EquipmentService {
     @Autowired
     private EquipmentRepository equipmentRepository;
 
+    @Autowired
+    private EquipmentTypeRepository equipmentTypeRepository;
+
     // Метод для создания оборудования
-    public Equipment createEquipment(Equipment equipment) {
+    public Equipment createEquipment(EquipmentRequest equipmentRequest) {
+        Equipment equipment = new Equipment();
+        equipment.setName(equipmentRequest.getName());
+        equipment.setStatus(equipmentRequest.isStatus());
+
+        // Загрузка типа оборудования по ID
+        EquipmentType type = equipmentTypeRepository.findById(equipmentRequest.getType())
+                .orElseThrow(() -> new RuntimeException("Тип оборудования не найден с ID: " + equipmentRequest.getType()));
+
+        equipment.setType(type);
+
         return equipmentRepository.save(equipment);
     }
 
@@ -29,15 +45,23 @@ public class EquipmentService {
     }
 
     // Метод для обновления информации об оборудовании
-    public Equipment updateEquipment(Long id, Equipment updatedEquipment) {
-        Equipment equipment = equipmentRepository.findById(id).orElse(null);
-        if (equipment != null) {
-            equipment.setName(updatedEquipment.getName());
-            equipment.setStatus(updatedEquipment.isStatus());
-            equipment.setTypeId(updatedEquipment.getTypeId());
+    public Equipment updateEquipment(Long id, EquipmentRequest equipmentRequest) {
+        Optional<Equipment> optionalEquipment = equipmentRepository.findById(id);
+        if (optionalEquipment.isPresent()) {
+            Equipment equipment = optionalEquipment.get();
+            equipment.setName(equipmentRequest.getName());
+            equipment.setStatus(equipmentRequest.isStatus());
+
+            // Загрузка типа оборудования по ID
+            EquipmentType type = equipmentTypeRepository.findById(equipmentRequest.getType())
+                    .orElseThrow(() -> new RuntimeException("Тип оборудования не найден с ID: " + equipmentRequest.getType()));
+
+            equipment.setType(type);
+
             return equipmentRepository.save(equipment);
+        } else {
+            return null;
         }
-        return null;
     }
 
     // Метод для удаления оборудования по его идентификатору

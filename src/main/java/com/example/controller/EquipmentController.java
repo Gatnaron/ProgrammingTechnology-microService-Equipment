@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Equipment;
+import com.example.model.EquipmentRequest;
 import com.example.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,8 @@ public class EquipmentController {
 
     // Endpoint для создания нового оборудования
     @PostMapping("/create")
-    public ResponseEntity<Equipment> createEquipment(@RequestBody Equipment equipment) {
-        Equipment createdEquipment = equipmentService.createEquipment(equipment);
+    public ResponseEntity<Equipment> createEquipment(@RequestBody EquipmentRequest equipmentRequest) {
+        Equipment createdEquipment = equipmentService.createEquipment(equipmentRequest);
         return new ResponseEntity<>(createdEquipment, HttpStatus.CREATED);
     }
 
@@ -39,10 +40,10 @@ public class EquipmentController {
 
     // Endpoint для обновления информации об оборудовании
     @PutMapping("/{id}/update")
-    public ResponseEntity<Equipment> updateEquipment(@PathVariable Long id, @RequestBody Equipment updatedEquipment) {
-        Equipment equipment = equipmentService.updateEquipment(id, updatedEquipment);
-        if (equipment != null) {
-            return new ResponseEntity<>(equipment, HttpStatus.OK);
+    public ResponseEntity<Equipment> updateEquipment(@PathVariable Long id, @RequestBody EquipmentRequest equipmentRequest) {
+        Equipment updatedEquipment = equipmentService.updateEquipment(id, equipmentRequest);
+        if (updatedEquipment != null) {
+            return new ResponseEntity<>(updatedEquipment, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

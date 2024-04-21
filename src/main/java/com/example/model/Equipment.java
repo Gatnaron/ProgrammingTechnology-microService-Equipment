@@ -10,8 +10,9 @@ public class Equipment {
     private Long id;
     private String name;
     private boolean status;
-    @Column(name = "type_id")
-    private Integer typeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id")
+    private EquipmentType type;
 
     public Equipment() {}
 
@@ -42,11 +43,11 @@ public class Equipment {
         this.status = status;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public EquipmentType getType() {
+        return type;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setType(EquipmentType type) {
+        this.type = type;
     }
 }
