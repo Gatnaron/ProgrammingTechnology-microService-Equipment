@@ -78,4 +78,17 @@ public class EquipmentController {
     public Equipment releaseEquipment(@PathVariable Long id) {
         return equipmentService.changeStatus(id, true);
     }
+
+    @GetMapping("/type/{typeId}")
+    public ResponseEntity<List<Equipment>> getEquipmentByType(@PathVariable Integer typeId) {
+        List<Equipment> equipment = equipmentService.getEquipmentByTypeId(typeId);
+        return new ResponseEntity<>(equipment, HttpStatus.OK);
+    }
+
+    @GetMapping("/type/{typeId}/status/{status}")
+    public ResponseEntity<List<Equipment>> getEquipmentByTypeAndStatus(
+            @PathVariable Integer typeId, @PathVariable boolean status) {
+        List<Equipment> equipment = equipmentService.getEquipmentByTypeIdAndStatus(typeId, status);
+        return new ResponseEntity<>(equipment, HttpStatus.OK);
+    }
 }

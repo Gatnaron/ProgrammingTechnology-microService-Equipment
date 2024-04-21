@@ -10,6 +10,8 @@ public class Equipment {
     private Long id;
     private String name;
     private boolean status;
+    @Column(name = "type_id")
+    private Integer typeId;
 
     public Equipment() {}
 
@@ -38,5 +40,13 @@ public class Equipment {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 }

@@ -34,6 +34,7 @@ public class EquipmentService {
         if (equipment != null) {
             equipment.setName(updatedEquipment.getName());
             equipment.setStatus(updatedEquipment.isStatus());
+            equipment.setTypeId(updatedEquipment.getTypeId());
             return equipmentRepository.save(equipment);
         }
         return null;
@@ -55,5 +56,15 @@ public class EquipmentService {
                 .orElseThrow(() -> new RuntimeException("Оборудование не найдено с id: " + id));
         equipment.setStatus(newStatus);
         return equipmentRepository.save(equipment);
+    }
+
+    // Метод для поиска оборудования по типу
+    public List<Equipment> getEquipmentByTypeId(Integer typeId) {
+        return equipmentRepository.findByTypeId(typeId);
+    }
+
+    // Метод для поиска оборудования по типу и статусу
+    public List<Equipment> getEquipmentByTypeIdAndStatus(Integer typeId, boolean status) {
+        return equipmentRepository.findByTypeIdAndStatus(typeId, status);
     }
 }

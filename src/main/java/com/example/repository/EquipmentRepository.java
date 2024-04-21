@@ -10,4 +10,10 @@ import java.util.List;
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     // Метод для поиска оборудования по статусу
     List<Equipment> findByStatus(boolean status);
+
+    // Метод для поиска оборудования по типу
+    List<Equipment> findByTypeId(Integer typeId);
+
+    // Метод для поиска оборудования по типу и статусу
+    List<Equipment> findByTypeIdAndStatus(Integer typeId, boolean status);
 }
