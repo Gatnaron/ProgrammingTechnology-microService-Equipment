@@ -38,7 +38,7 @@ public class EquipmentController {
     }
 
     // Endpoint для обновления информации об оборудовании
-    @PutMapping("/{id}/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Equipment> updateEquipment(@PathVariable Long id, @RequestBody Equipment updatedEquipment) {
         Equipment equipment = equipmentService.updateEquipment(id, updatedEquipment);
         if (equipment != null) {
@@ -49,7 +49,7 @@ public class EquipmentController {
     }
 
     // Endpoint для удаления оборудования по его идентификатору
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEquipment(@PathVariable Long id) {
         equipmentService.deleteEquipment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
