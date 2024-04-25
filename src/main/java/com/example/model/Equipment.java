@@ -23,7 +23,7 @@ public class Equipment {
     public Long getId(){
         return id;
     }
-    public void setId(){
+    public void setId(long l){
         this.id = id;
     }
     public String getName() {
