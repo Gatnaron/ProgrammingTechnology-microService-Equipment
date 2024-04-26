@@ -27,16 +27,16 @@ function updateEquipmentTable() {
           equipment.typeId +
           "</td>" +
           "<td>" +
-          "<button onclick='deleteEquipment(" +
+          "<button class='button' onclick='deleteEquipment(" +
           equipment.id +
           ")'>Delete</button>" +
-          "<button onclick='updateEquipment(" +
+          "<button class='button' onclick='updateEquipment(" +
           equipment.id +
           ")'>Update</button>" +
-          "<button onclick='useEquipment(" +
+          "<button class='button' onclick='useEquipment(" +
           equipment.id +
           ")'>Use</button>" +
-          "<button onclick='releaseEquipment(" +
+          "<button class='button' onclick='releaseEquipment(" +
           equipment.id +
           ")'>Release</button>" +
           "</td>" +
