@@ -1,52 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Equipment Management System</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <h1>Equipment Management System</h1>
+<head>
+  <meta charset="UTF-8" />
+  <title>Equipment Management System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<h1>Equipment Management System</h1>
 
-    <h2>Create Equipment</h2>
-    <form id="createForm" onsubmit="createEquipment(event)">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required />
-      <label for="status">Status:</label>
-      <input type="checkbox" id="status" name="status" checked />
-      <!-- Добавляем строку выбора типа оборудования -->
-      <label for="type">Type:</label>
-      <select id="type" name="type">
-        <option value="1">ПК (компьютеры-ноутбуки)</option>
-        <option value="2">Проигрывающие (устройства)</option>
-        <option value="3">Лабораторное оборудование</option>
-        <option value="4">Записывающее</option>
-        <option value="5">Экспериментальное</option>
-        <option value="6">Спортивное</option>
-      </select>
-      <button type="submit">Create</button></br>
-      
-    </form>
-    <button id="sortById" class="button">Sort by ID</button>
-    <button id="sortByStatus" class="button">Sort by Status</button>
-    <button id="sortByType" class="button">Sort by Type</button>
+<h2>Create Equipment</h2>
+<form id="createForm" onsubmit="createEquipment(event)">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required />
+  <label for="status">Status:</label>
+  <input type="checkbox" id="status" name="status" checked />
+  <label for="type">Type:</label>
+  <select id="type" name="type">
+    <option value="1">ПК (компьютеры-ноутбуки)</option>
+    <option value="2">Проигрывающие (устройства)</option>
+    <option value="3">Лабораторное оборудование</option>
+    <option value="4">Записывающее</option>
+    <option value="5">Экспериментальное</option>
+    <option value="6">Спортивное</option>
+  </select>
+  <button type="submit">Create</button>
+</form>
+<button id="sortById" class="button">Sort by ID</button>
+<button id="sortByStatus" class="button">Sort by Status</button>
+<button id="sortByType" class="button">Sort by Type</button>
 
-    <!-- Таблица для отображения существующего оборудования -->
-    <h2>All Equipment</h2>
-    <table id="equipmentTable">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Type</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+<h2>All Equipment</h2>
+<table id="equipmentTable">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Type</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
 
-    <script src="script.js"></script>
-  </body>
+<h2>All Equipment Usage</h2>
+<table id="usageTable">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Equipment ID</th>
+    <th>Event ID</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<button id="showUsageButton" class="button">Show Equipment Usage</button>
+
+<h2>Create Equipment Usage</h2>
+<form id="createUsageForm" onsubmit="createEquipmentUsage(event)">
+  <label for="equipmentId">Equipment ID:</label>
+  <input type="number" id="equipmentId" name="equipmentId" required />
+  <label for="eventId">Event ID:</label>
+  <input type="number" id="eventId" name="eventId" required />
+  <label for="startTime">Start Time:</label>
+  <input type="datetime-local" id="startTime" name="startTime" required />
+  <label for="endTime">End Time:</label>
+  <input type="datetime-local" id="endTime" name="endTime" required />
+  <button type="submit" class="button">Create Usage</button>
+</form>
+
+<script src="script.js"></script>
+</body>
 </html>
