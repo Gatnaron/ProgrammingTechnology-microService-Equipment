@@ -60,18 +60,22 @@ class EquipmentControllerTest {
     }
 
     @Test
-    public void testGetAllEquipment() {
-        List<Equipment> equipmentList = new ArrayList<>();
-        equipmentList.add(testEquipment);
-        when(equipmentService.getAllEquipment()).thenReturn(equipmentList);
-        ResponseEntity<List<Equipment>> response = equipmentController.getAllEquipment();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(equipmentList, response.getBody());
+    public void testGetActiveEquipment() {
+        List<Equipment> activeEquipmentList = new ArrayList<>();
+        activeEquipmentList.add(testEquipment);
+        when(equipmentService.findByStatus(true)).thenReturn(activeEquipmentList);
+        List<Equipment> response = equipmentController.getActiveEquipment();
+        assertEquals(activeEquipmentList, response);
     }
 
     @Test
-    public void testDeleteEquipment() {
-        ResponseEntity<Void> response = equipmentController.deleteEquipment(1L);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    public void testGetInactiveEquipment() {
+        List<Equipment> inactiveEquipmentList = new ArrayList<>();
+        Equipment inactiveTestEquipment = new Equipment("Inactive Test Equipment", false);
+        inactiveTestEquipment.setId(2L);
+        inactiveEquipmentList.add(inactiveTestEquipment);
+        when(equipmentService.findByStatus(false)).thenReturn(inactiveEquipmentList);
+        List<Equipment> response = equipmentController.getInactiveEquipment();
+        assertEquals(inactiveEquipmentList, response);
     }
 }
