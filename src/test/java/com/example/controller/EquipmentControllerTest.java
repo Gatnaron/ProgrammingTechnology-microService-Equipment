@@ -101,5 +101,6 @@ class EquipmentControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Проектор А", response.getBody().getName());
         assertEquals(true, response.getBody().getActive());
+
     }
 }

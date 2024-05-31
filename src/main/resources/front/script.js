@@ -180,7 +180,7 @@ function releaseEquipment(id) {
     });
 }
 
-// Обновляем таблицу с оборудованием при загрузке страницы
+
 document.addEventListener("DOMContentLoaded", function () {
   updateEquipmentTable();
 });
@@ -256,3 +256,104 @@ document
 document
   .querySelector("#sortByType")
   .addEventListener("click", sortTableByType);
+
+
+  function updateUsageTable() {
+    var tableBody = document.querySelector("#usageTable tbody");
+    tableBody.innerHTML = "";
+
+    fetch("http://localhost:8080/equipment-usage", {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch equipment usage.");
+        }
+        return response.json();
+      })
+      .then((usage) => {
+        usage.forEach((usage) => {
+          var row =
+            "<tr>" +
+            "<td>" +
+            usage.id +
+            "</td>" +
+            "<td>" +
+            usage.equipmentId +
+            "</td>" +
+            "<td>" +
+            usage.eventId +
+            "</td>" +
+            "<td>" +
+            new Date(usage.startTime).toLocaleString() +
+            "</td>" +
+            "<td>" +
+            new Date(usage.endTime).toLocaleString() +
+            "</td>" +
+            "<td>" +
+            "<button class='button' onclick='deleteUsage(" +
+            usage.id +
+            ")'>Delete</button>" +
+            "</td>" +
+            "</tr>";
+          tableBody.insertAdjacentHTML("beforeend", row);
+        });
+      })
+      .catch((error) => {
+        console.error("Failed to fetch equipment usage:", error);
+      });
+  }
+
+  function createEquipmentUsage(event) {
+    event.preventDefault();
+    var form = event.target;
+    var data = {
+      equipmentId: form.equipmentId.value,
+      eventId: form.eventId.value,
+      startTime: form.startTime.value,
+      endTime: form.endTime.value,
+    };
+
+    fetch("http://localhost:8080/equipment-usage/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create equipment usage.");
+        }
+        form.reset();
+        updateUsageTable();
+        updateEquipmentTable();
+      })
+      .catch((error) => {
+        console.error("Failed to create equipment usage:", error);
+      });
+  }
+
+  function deleteUsage(id) {
+    fetch("http://localhost:8080/equipment-usage/del/" + id, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete equipment usage.");
+        }
+        updateUsageTable();
+        updateEquipmentTable();
+      })
+      .catch((error) => {
+        console.error("Failed to delete equipment usage:", error);
+      });
+  }
+
+  document
+  .querySelector("#showUsageButton")
+  .addEventListener("click", updateUsageTable);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    updateUsageTable();
+  });
