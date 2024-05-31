@@ -49,4 +49,12 @@ public class Equipment {
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
     }
+
+    public boolean getActive() {
+        return status;
+    }
+
+    public void setActive(boolean active) {
+        this.status = active;
+    }
 }

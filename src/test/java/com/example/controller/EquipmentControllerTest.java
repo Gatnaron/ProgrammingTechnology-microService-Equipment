@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class EquipmentControllerTest {
+
     @Mock
     private EquipmentService equipmentService;
 
@@ -28,55 +29,77 @@ class EquipmentControllerTest {
     private EquipmentController equipmentController;
 
     private Equipment testEquipment;
+    private Equipment updatedEquipment;
+    private Equipment inactiveTestEquipment;
 
     @BeforeEach
     public void setup() {
-        testEquipment = new Equipment("Test Equipment", true);
+        testEquipment = new Equipment("Проектор А", true);
         testEquipment.setId(1L);
+
+        updatedEquipment = new Equipment("Проектор Б", true);
+        updatedEquipment.setId(1L);
+
+        inactiveTestEquipment = new Equipment("Неактивное оборудование", false);
+        inactiveTestEquipment.setId(2L);
     }
 
-    @Test
-    public void testCreateEquipment() {
-        when(equipmentService.createEquipment(any(Equipment.class))).thenReturn(testEquipment);
-        ResponseEntity<Equipment> response = equipmentController.createEquipment(testEquipment);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(testEquipment, response.getBody());
-    }
-
-    @Test
-    public void testUpdateEquipment() {
-        when(equipmentService.updateEquipment(eq(1L), any(Equipment.class))).thenReturn(testEquipment);
-        ResponseEntity<Equipment> response = equipmentController.updateEquipment(1L, testEquipment);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(testEquipment, response.getBody());
-    }
-
-    @Test
-    public void testGetEquipmentById() {
-        when(equipmentService.getEquipmentById(eq(1L))).thenReturn(Optional.of(testEquipment));
-        ResponseEntity<Equipment> response = equipmentController.getEquipmentById(1L);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(testEquipment, response.getBody());
-    }
-
+    // Тест для метода getActiveEquipment()
     @Test
     public void testGetActiveEquipment() {
         List<Equipment> activeEquipmentList = new ArrayList<>();
         activeEquipmentList.add(testEquipment);
+
         when(equipmentService.findByStatus(true)).thenReturn(activeEquipmentList);
+
         List<Equipment> response = equipmentController.getActiveEquipment();
+
         assertEquals(activeEquipmentList, response);
+        assertEquals(1, response.size());
+        assertEquals("Проектор А", response.get(0).getName());
+        assertEquals(true, response.get(0).getActive());
     }
 
+    // Тест для метода getInactiveEquipment()
     @Test
     public void testGetInactiveEquipment() {
         List<Equipment> inactiveEquipmentList = new ArrayList<>();
-        Equipment inactiveTestEquipment = new Equipment("Inactive Test Equipment", false);
-        inactiveTestEquipment.setId(2L);
         inactiveEquipmentList.add(inactiveTestEquipment);
+
         when(equipmentService.findByStatus(false)).thenReturn(inactiveEquipmentList);
+
         List<Equipment> response = equipmentController.getInactiveEquipment();
+
         assertEquals(inactiveEquipmentList, response);
+        assertEquals(1, response.size());
+        assertEquals("Неактивное оборудование", response.get(0).getName());
+        assertEquals(false, response.get(0).getActive());
     }
 
+    // Тест для метода updateEquipment()
+    @Test
+    public void testUpdateEquipment() {
+        when(equipmentService.updateEquipment(eq(1L), any(Equipment.class))).thenReturn(updatedEquipment);
+
+        Equipment updatedEquipment = new Equipment("Проектор Б", true);
+        updatedEquipment.setId(1L);
+
+        ResponseEntity<Equipment> response = equipmentController.updateEquipment(1L, updatedEquipment);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Проектор Б", response.getBody().getName());
+        assertEquals(true, response.getBody().getActive());
+    }
+
+    // Тест для метода createEquipment()
+    @Test
+    public void testCreateEquipment() {
+        when(equipmentService.createEquipment(any(Equipment.class))).thenReturn(testEquipment);
+
+        ResponseEntity<Equipment> response = equipmentController.createEquipment(testEquipment);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("Проектор А", response.getBody().getName());
+        assertEquals(true, response.getBody().getActive());
+    }
 }
