@@ -15,9 +15,10 @@ public class Equipment {
 
     public Equipment() {}
 
-    public Equipment(String name, boolean status){
+    public Equipment(String name, boolean status, Integer type){
         this.name = name;
         this.status = status;
+        this.typeId = type;
     }
 
     public Long getId(){
